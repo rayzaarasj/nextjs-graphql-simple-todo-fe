@@ -1,8 +1,10 @@
+import { Container } from '@material-ui/core';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Typography,
+  Link,
 } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import React, { FC } from 'react';
@@ -11,8 +13,8 @@ type TodoProps = {
   id: number;
   title: string;
   description: string;
-  deadline?: Date;
-  categories?: {
+  deadline: Date;
+  categories: {
     id: number;
     category: string;
   }[];
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Todo: FC<TodoProps> = (props: TodoProps) => {
   const classes = useStyles();
 
+  console.log(props.categories);
   return (
     <Accordion>
       <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
@@ -40,6 +43,23 @@ export const Todo: FC<TodoProps> = (props: TodoProps) => {
       </AccordionSummary>
       <AccordionDetails>
         <Typography>{props.description}</Typography>
+      </AccordionDetails>
+      <AccordionSummary>
+        <Typography>Deadline : {props.deadline.toString()}</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>Categories: </Typography>
+        {props.categories.map((data, index) => {
+          return (
+            <Container key={index}>
+              <Typography>
+                <Link href={'/categories/' + data.id.toString()}>
+                  {data.category}
+                </Link>
+              </Typography>
+            </Container>
+          );
+        })}
       </AccordionDetails>
     </Accordion>
   );

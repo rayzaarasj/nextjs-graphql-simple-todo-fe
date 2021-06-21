@@ -2,8 +2,19 @@ import { Container } from '@material-ui/core';
 import React, { ReactElement } from 'react';
 import { Todo } from '../../components/Todo';
 
+type MockData = {
+  id: string;
+  title: string;
+  description: string;
+  deadline: string;
+  categories: {
+    id: string;
+    category: string;
+  }[];
+};
+
 export default function Todos(): ReactElement {
-  const mockDatas = [
+  const mockDatas: MockData[] = [
     {
       id: '38',
       title: 'Create Frontend',
@@ -26,19 +37,27 @@ export default function Todos(): ReactElement {
           id: '34',
           category: 'frontend',
         },
+        {
+          id: '35',
+          category: 'backend',
+        },
       ],
     },
   ];
 
   return (
     <Container style={{ marginTop: '1rem' }}>
-      {mockDatas.map((data, index) => {
+      {mockDatas.map((data: MockData, index: number) => {
         return (
           <Todo
             key={index}
             id={parseInt(data.id)}
             title={data.title}
             description={data.description}
+            deadline={new Date(data.deadline)}
+            categories={data.categories.map((category) => {
+              return { id: parseInt(category.id), category: category.category };
+            })}
           ></Todo>
         );
       })}
