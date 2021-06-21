@@ -1,5 +1,10 @@
+import { Container } from '@material-ui/core';
 import { ReactElement } from 'react';
 
 export default function Home(): ReactElement {
-  return <div>simple-todo-frontend</div>;
+  return (
+    <Container>
+      <div>simple-todo-frontend</div>
+    </Container>
+  );
 }
