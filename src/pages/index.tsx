@@ -1,10 +1,6 @@
-import { Container } from '@material-ui/core';
 import { ReactElement } from 'react';
+import Todos from './todos.tsx';
 
 export default function Home(): ReactElement {
-  return (
-    <Container>
-      <div>simple-todo-frontend</div>
-    </Container>
-  );
+  return <Todos />;
 }
