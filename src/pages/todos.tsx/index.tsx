@@ -30,17 +30,18 @@ export default function Todos(): ReactElement {
     },
   ];
 
-  const mockData = mockDatas[0];
-
   return (
     <Container style={{ marginTop: '1rem' }}>
-      <Todo
-        id={parseInt(mockData.id)}
-        title={mockData.title}
-        description={mockData.description}
-      />
-      <Todo id={2} title="test title 2" description="test description 2" />
-      <Todo id={3} title="test title 3" description="test description 3" />
+      {mockDatas.map((data, index) => {
+        return (
+          <Todo
+            key={index}
+            id={parseInt(data.id)}
+            title={data.title}
+            description={data.description}
+          ></Todo>
+        );
+      })}
     </Container>
   );
 }
