@@ -4,14 +4,7 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../lib/theme';
-import {
-  AppBar,
-  Container,
-  Toolbar,
-  Typography,
-  Button,
-  Link,
-} from '@material-ui/core';
+import { Header } from '../components/Header';
 
 export default function MyApp(props: AppProps): ReactElement {
   const { Component, pageProps } = props;
@@ -36,27 +29,7 @@ export default function MyApp(props: AppProps): ReactElement {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <AppBar position="static">
-          <Container>
-            <Toolbar variant="dense">
-              <Typography
-                variant="h6"
-                color="inherit"
-                style={{ borderRight: '0.1em solid white', padding: '0.5em' }}
-              >
-                <Link href="/" color="inherit" underline="none">
-                  SimpleTodo
-                </Link>
-              </Typography>
-              <Button color="inherit" href="todos">
-                Todos
-              </Button>
-              <Button color="inherit" href="categories">
-                Categories
-              </Button>
-            </Toolbar>
-          </Container>
-        </AppBar>
+        <Header></Header>
         <Component {...pageProps} />
       </ThemeProvider>
     </React.Fragment>
