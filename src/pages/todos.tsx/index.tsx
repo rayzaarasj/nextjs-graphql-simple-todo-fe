@@ -46,7 +46,7 @@ export default function Todos(): ReactElement {
   ];
 
   return (
-    <Container style={{ marginTop: '1rem' }}>
+    <Container style={{ padding: '2rem' }}>
       {mockDatas.map((data: MockData, index: number) => {
         return (
           <Todo
