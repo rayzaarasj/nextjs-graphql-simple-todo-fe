@@ -53,7 +53,7 @@ export const Todo: FC<TodoProps> = (props: TodoProps) => {
           return (
             <Container key={index}>
               <Typography>
-                <Link href={'/categories/' + data.id.toString()}>
+                <Link href={`/categories/${data.id.toString()}`}>
                   {data.category}
                 </Link>
               </Typography>
