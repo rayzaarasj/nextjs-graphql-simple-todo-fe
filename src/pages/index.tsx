@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
+import Todos from './todos.tsx';
 
 export default function Home(): ReactElement {
-  return <div>simple-todo-frontend</div>;
+  return <Todos />;
 }
