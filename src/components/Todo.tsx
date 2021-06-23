@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Todo: FC<TodoProps> = (props: TodoProps) => {
   const classes = useStyles();
 
-  console.log(props.categories);
   return (
     <Accordion>
       <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">

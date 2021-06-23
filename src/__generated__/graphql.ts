@@ -1,14 +1,10 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -96,6 +92,7 @@ export type DeleteTodoPayload = {
   errors: Array<Scalars['String']>;
 };
 
+
 export type Mutation = {
   __typename?: 'Mutation';
   createCategory?: Maybe<CreateCategoryPayload>;
@@ -108,25 +105,31 @@ export type Mutation = {
   updateTodo?: Maybe<UpdateTodoPayload>;
 };
 
+
 export type MutationCreateCategoryArgs = {
   input: CreateCategoryInput;
 };
+
 
 export type MutationCreateTodoArgs = {
   input: CreateTodoInput;
 };
 
+
 export type MutationDeleteCategoryArgs = {
   input: DeleteCategoryInput;
 };
+
 
 export type MutationDeleteTodoArgs = {
   input: DeleteTodoInput;
 };
 
+
 export type MutationUpdateCategoryArgs = {
   input: UpdateCategoryInput;
 };
+
 
 export type MutationUpdateTodoArgs = {
   input: UpdateTodoInput;
@@ -145,21 +148,26 @@ export type Query = {
   todosByTitle?: Maybe<Array<Todo>>;
 };
 
+
 export type QueryCategoryByIdArgs = {
   id: Scalars['Int'];
 };
+
 
 export type QueryTodoByIdArgs = {
   id: Scalars['Int'];
 };
 
+
 export type QueryTodosByCategoryIdsArgs = {
   categoryIds: Array<Scalars['Int']>;
 };
 
+
 export type QueryTodosByCategoryNamesArgs = {
   categoryNames: Array<Scalars['String']>;
 };
+
 
 export type QueryTodosByTitleArgs = {
   title: Scalars['String'];
@@ -213,39 +221,36 @@ export type UpdateTodoPayload = {
   todo: Todo;
 };
 
-export type GetTodosQueryVariables = Exact<{ [key: string]: never }>;
+export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetTodosQuery = { __typename?: 'Query' } & {
-  todos?: Maybe<
-    Array<
-      { __typename?: 'Todo' } & Pick<
-        Todo,
-        'id' | 'title' | 'description' | 'deadline'
-      > & {
-          categories?: Maybe<
-            Array<
-              { __typename?: 'Category' } & Pick<Category, 'id' | 'category'>
-            >
-          >;
-        }
-    >
-  >;
-};
+
+export type GetTodosQuery = (
+  { __typename?: 'Query' }
+  & { todos?: Maybe<Array<(
+    { __typename?: 'Todo' }
+    & Pick<Todo, 'id' | 'title' | 'description' | 'deadline'>
+    & { categories?: Maybe<Array<(
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'category'>
+    )>> }
+  )>> }
+);
+
 
 export const GetTodosDocument = gql`
-  query getTodos {
-    todos {
+    query getTodos {
+  todos {
+    id
+    title
+    description
+    deadline
+    categories {
       id
-      title
-      description
-      deadline
-      categories {
-        id
-        category
-      }
+      category
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetTodosQuery__
@@ -262,32 +267,14 @@ export const GetTodosDocument = gql`
  *   },
  * });
  */
-export function useGetTodosQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetTodosQuery, GetTodosQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTodosQuery, GetTodosQueryVariables>(
-    GetTodosDocument,
-    options
-  );
-}
-export function useGetTodosLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTodosQuery,
-    GetTodosQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTodosQuery, GetTodosQueryVariables>(
-    GetTodosDocument,
-    options
-  );
-}
+export function useGetTodosQuery(baseOptions?: Apollo.QueryHookOptions<GetTodosQuery, GetTodosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
+      }
+export function useGetTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTodosQuery, GetTodosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
+        }
 export type GetTodosQueryHookResult = ReturnType<typeof useGetTodosQuery>;
-export type GetTodosLazyQueryHookResult = ReturnType<
-  typeof useGetTodosLazyQuery
->;
-export type GetTodosQueryResult = Apollo.QueryResult<
-  GetTodosQuery,
-  GetTodosQueryVariables
->;
+export type GetTodosLazyQueryHookResult = ReturnType<typeof useGetTodosLazyQuery>;
+export type GetTodosQueryResult = Apollo.QueryResult<GetTodosQuery, GetTodosQueryVariables>;

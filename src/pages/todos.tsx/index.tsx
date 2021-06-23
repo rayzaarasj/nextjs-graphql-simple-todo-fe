@@ -1,63 +1,57 @@
-import { Container } from '@material-ui/core';
+import { Box, CircularProgress, Container } from '@material-ui/core';
 import React, { ReactElement } from 'react';
 import { Todo } from '../../components/Todo';
+import { useGetTodosQuery } from '../../__generated__/graphql';
 
-type MockData = {
-  id: string;
+type TodoType = {
+  id: number;
   title: string;
   description: string;
-  deadline: string;
+  deadline: Date;
   categories: {
-    id: string;
+    id: number;
     category: string;
   }[];
 };
 
 export default function Todos(): ReactElement {
-  const mockDatas: MockData[] = [
-    {
-      id: '38',
-      title: 'Create Frontend',
-      description: 'Create Frontend for Personal Project',
-      deadline: '2021-06-21T17:00:00Z',
-      categories: [
-        {
-          id: '34',
-          category: 'frontend',
-        },
-      ],
-    },
-    {
-      id: '39',
-      title: 'Integrate Frontend and Backend',
-      description: 'Integrate Frontend and Backend for Personal Project',
-      deadline: '2021-06-22T17:00:00Z',
-      categories: [
-        {
-          id: '34',
-          category: 'frontend',
-        },
-        {
-          id: '35',
-          category: 'backend',
-        },
-      ],
-    },
-  ];
+  const { data, loading } = useGetTodosQuery();
+  const todos: TodoType[] = [];
+  data?.todos?.forEach((todo) => {
+    todos.push({
+      id: parseInt(todo.id),
+      title: todo.title || '',
+      description: todo.description || '',
+      deadline: new Date(todo.deadline || 0),
+      categories:
+        todo.categories?.map((category) => {
+          return {
+            id: parseInt(category.id),
+            category: category.category || '',
+          };
+        }) || [],
+    });
+  });
+
+  if (loading) {
+    return (
+      <Box marginY="40px" display="flex" justifyContent="center">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Container>
-      {mockDatas.map((data: MockData, index: number) => {
+      {todos.map((data: TodoType, index: number) => {
         return (
           <Todo
             key={index}
-            id={parseInt(data.id)}
+            id={data.id}
             title={data.title}
             description={data.description}
-            deadline={new Date(data.deadline)}
-            categories={data.categories.map((category) => {
-              return { id: parseInt(category.id), category: category.category };
-            })}
+            deadline={data.deadline}
+            categories={data.categories}
           ></Todo>
         );
       })}
