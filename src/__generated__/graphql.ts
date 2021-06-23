@@ -247,6 +247,23 @@ export type GetTodosQuery = (
   )>> }
 );
 
+export type GetTodosByCategoryIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetTodosByCategoryIdQuery = (
+  { __typename?: 'Query' }
+  & { todosByCategoryIds?: Maybe<Array<(
+    { __typename?: 'Todo' }
+    & Pick<Todo, 'id' | 'title' | 'description' | 'deadline'>
+    & { categories?: Maybe<Array<(
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'category'>
+    )>> }
+  )>> }
+);
+
 
 export const GetCategoriesDocument = gql`
     query getCategories {
@@ -324,3 +341,45 @@ export function useGetTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetTodosQueryHookResult = ReturnType<typeof useGetTodosQuery>;
 export type GetTodosLazyQueryHookResult = ReturnType<typeof useGetTodosLazyQuery>;
 export type GetTodosQueryResult = Apollo.QueryResult<GetTodosQuery, GetTodosQueryVariables>;
+export const GetTodosByCategoryIdDocument = gql`
+    query getTodosByCategoryId($id: Int!) {
+  todosByCategoryIds(categoryIds: [$id]) {
+    id
+    title
+    description
+    deadline
+    categories {
+      id
+      category
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTodosByCategoryIdQuery__
+ *
+ * To run a query within a React component, call `useGetTodosByCategoryIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTodosByCategoryIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTodosByCategoryIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetTodosByCategoryIdQuery(baseOptions: Apollo.QueryHookOptions<GetTodosByCategoryIdQuery, GetTodosByCategoryIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTodosByCategoryIdQuery, GetTodosByCategoryIdQueryVariables>(GetTodosByCategoryIdDocument, options);
+      }
+export function useGetTodosByCategoryIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTodosByCategoryIdQuery, GetTodosByCategoryIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTodosByCategoryIdQuery, GetTodosByCategoryIdQueryVariables>(GetTodosByCategoryIdDocument, options);
+        }
+export type GetTodosByCategoryIdQueryHookResult = ReturnType<typeof useGetTodosByCategoryIdQuery>;
+export type GetTodosByCategoryIdLazyQueryHookResult = ReturnType<typeof useGetTodosByCategoryIdLazyQuery>;
+export type GetTodosByCategoryIdQueryResult = Apollo.QueryResult<GetTodosByCategoryIdQuery, GetTodosByCategoryIdQueryVariables>;
