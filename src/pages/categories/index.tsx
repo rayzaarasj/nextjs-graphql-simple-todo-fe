@@ -1,4 +1,10 @@
-import { Box, CircularProgress, Container, Grid } from '@material-ui/core';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+} from '@material-ui/core';
 import React, { ReactElement } from 'react';
 import { Category } from '../../components/Category';
 import { useGetCategoriesQuery } from '../../__generated__/graphql';
@@ -28,6 +34,8 @@ export default function Categories(): ReactElement {
 
   return (
     <Container>
+      <Typography variant="h1">Categories</Typography>
+      <Box height="2rem" />
       <Grid
         container
         spacing={2}
