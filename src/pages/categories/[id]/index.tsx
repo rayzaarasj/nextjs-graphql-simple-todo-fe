@@ -3,7 +3,7 @@ import { useRouter } from 'next/dist/client/router';
 import React, { ReactElement } from 'react';
 import { Todo } from '../../../components/Todo';
 import { useGetTodosByCategoryIdQuery } from '../../../__generated__/graphql';
-import { TodoType } from '../../todos.tsx';
+import { TodoType } from '../../todos';
 
 export default function Category(): ReactElement {
   const router = useRouter();
