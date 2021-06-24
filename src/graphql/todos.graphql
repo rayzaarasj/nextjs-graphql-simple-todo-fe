@@ -1,0 +1,12 @@
+query getTodos {
+  todos {
+    id
+    title
+    description
+    deadline
+    categories {
+      id
+      category
+    }
+  }
+}

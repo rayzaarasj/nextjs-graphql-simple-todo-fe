@@ -1,23 +1,21 @@
 import { Box, CircularProgress, Container } from '@material-ui/core';
+import { useRouter } from 'next/dist/client/router';
 import React, { ReactElement } from 'react';
-import { Todo } from '../../components/Todo';
-import { useGetTodosQuery } from '../../__generated__/graphql';
+import { Todo } from '../../../components/Todo';
+import { useGetTodosByCategoryIdQuery } from '../../../__generated__/graphql';
+import { TodoType } from '../../todos.tsx';
 
-export type TodoType = {
-  id: number;
-  title: string;
-  description: string;
-  deadline: Date;
-  categories: {
-    id: number;
-    category: string;
-  }[];
-};
+export default function Category(): ReactElement {
+  const router = useRouter();
+  const categoryId = router.query.id as string;
+  const { data, loading } = useGetTodosByCategoryIdQuery({
+    variables: {
+      id: parseInt(categoryId),
+    },
+  });
 
-export default function Todos(): ReactElement {
-  const { data, loading } = useGetTodosQuery();
   const todos: TodoType[] = [];
-  data?.todos?.forEach((todo) => {
+  data?.todosByCategoryIds?.forEach((todo) => {
     todos.push({
       id: parseInt(todo.id),
       title: todo.title || '',

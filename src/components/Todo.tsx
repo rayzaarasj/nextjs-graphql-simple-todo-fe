@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Todo: FC<TodoProps> = (props: TodoProps) => {
   const classes = useStyles();
 
-  console.log(props.categories);
   return (
     <Accordion>
       <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
@@ -53,7 +52,11 @@ export const Todo: FC<TodoProps> = (props: TodoProps) => {
           return (
             <Container key={index}>
               <Typography>
-                <Link href={`/categories/${data.id.toString()}`}>
+                <Link
+                  href={`/categories/${data.id.toString()}`}
+                  color="inherit"
+                  underline="none"
+                >
                   {data.category}
                 </Link>
               </Typography>

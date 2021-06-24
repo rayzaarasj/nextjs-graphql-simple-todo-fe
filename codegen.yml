@@ -1,0 +1,13 @@
+overwrite: true
+schema: 'simple_todo_backend_schema.graphql'
+documents: 'src/**/*.graphql'
+generates:
+  src/__generated__/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      scalars:
+        ISO8601DateTime: string
+        ISO8601Date: string

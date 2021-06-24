@@ -1,0 +1,12 @@
+query getTodosByCategoryId($id: Int!) {
+  todosByCategoryIds(categoryIds:[$id]) {
+    id
+    title
+    description
+    deadline
+    categories {
+      id
+      category
+    }
+  }
+}
