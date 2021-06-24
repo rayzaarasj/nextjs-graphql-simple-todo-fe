@@ -5,7 +5,7 @@ import { useGetCategoriesQuery } from '../../__generated__/graphql';
 import { CategoryType } from '../categories';
 
 export default function TodosByCategories(): ReactElement {
-  const [categoryIsCheked, updatecategoryIsChecked] = useState<
+  const [categoryIsChecked, updatecategoryIsChecked] = useState<
     Map<number, boolean>
   >(new Map<number, boolean>());
   const { data, loading } = useGetCategoriesQuery();
@@ -15,13 +15,13 @@ export default function TodosByCategories(): ReactElement {
       id: parseInt(category.id),
       category: category.category || '',
     });
-    categoryIsCheked.set(parseInt(category.id), false);
+    categoryIsChecked.set(parseInt(category.id), false);
   });
 
   // add more mock checboxes
   for (let i = 0; i < 100; i++) {
     categories.push({ id: i + 100, category: `categories-${i + 100}` });
-    categoryIsCheked.set(i + 100, false);
+    categoryIsChecked.set(i + 100, false);
   }
 
   if (loading) {
@@ -33,9 +33,9 @@ export default function TodosByCategories(): ReactElement {
   }
 
   const handleCategoryCheckChange = (id: number) => {
-    console.log(categoryIsCheked);
+    console.log(categoryIsChecked);
     const newState = new Map(
-      categoryIsCheked.set(id, !categoryIsCheked.get(id))
+      categoryIsChecked.set(id, !categoryIsChecked.get(id))
     );
     updatecategoryIsChecked(newState);
   };
@@ -48,7 +48,7 @@ export default function TodosByCategories(): ReactElement {
             key={index}
             control={
               <Checkbox
-                checked={categoryIsCheked.get(category.id)}
+                checked={categoryIsChecked.get(category.id)}
                 onChange={() => handleCategoryCheckChange(category.id)}
                 value={category.id}
               />
