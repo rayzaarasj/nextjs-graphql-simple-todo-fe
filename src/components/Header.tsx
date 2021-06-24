@@ -28,6 +28,9 @@ export const Header: FC = () => {
           <Button color="inherit" href="/categories">
             Categories
           </Button>
+          <Button color="inherit" href="/todos-by-categories">
+            Todos by Categories
+          </Button>
         </Toolbar>
       </Container>
     </AppBar>

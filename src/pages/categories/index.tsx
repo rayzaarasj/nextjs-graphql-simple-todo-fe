@@ -9,7 +9,7 @@ import React, { ReactElement } from 'react';
 import { Category } from '../../components/Category';
 import { useGetCategoriesQuery } from '../../__generated__/graphql';
 
-type CategoryType = {
+export type CategoryType = {
   id: number;
   category: string;
 };
