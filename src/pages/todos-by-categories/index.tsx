@@ -5,24 +5,25 @@ import { useGetCategoriesQuery } from '../../__generated__/graphql';
 import { CategoryType } from '../categories';
 
 export default function TodosByCategories(): ReactElement {
-  const [categoryIsChecked, updatecategoryIsChecked] = useState<
-    Map<number, boolean>
-  >(new Map<number, boolean>());
   const { data, loading } = useGetCategoriesQuery();
   const categories: CategoryType[] = [];
+  const initialState = new Map<number, boolean>();
   data?.categories?.forEach((category) => {
     categories.push({
       id: parseInt(category.id),
       category: category.category || '',
     });
-    categoryIsChecked.set(parseInt(category.id), false);
+    initialState.set(parseInt(category.id), false);
   });
 
   // add more mock checboxes
   for (let i = 0; i < 100; i++) {
     categories.push({ id: i + 100, category: `categories-${i + 100}` });
-    categoryIsChecked.set(i + 100, false);
+    initialState.set(i + 100, false);
   }
+
+  const [categoryIsChecked, updatecategoryIsChecked] =
+    useState<Map<number, boolean>>(initialState);
 
   if (loading) {
     return (
@@ -33,7 +34,6 @@ export default function TodosByCategories(): ReactElement {
   }
 
   const handleCategoryCheckChange = (id: number) => {
-    console.log(categoryIsChecked);
     const newState = new Map(
       categoryIsChecked.set(id, !categoryIsChecked.get(id))
     );
