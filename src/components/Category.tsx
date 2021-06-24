@@ -35,13 +35,15 @@ export const Category: FC<CategoryProps> = (props: CategoryProps) => {
     <Card id={props.id.toString()}>
       <CardContent>
         <Typography align="center">
-          <Link
-            href={`/categories/${props.id.toString()}`}
-            color="inherit"
-            underline="none"
-          >
-            {props.category}
-          </Link>
+          <Typography variant="h5">
+            <Link
+              href={`/categories/${props.id.toString()}`}
+              color="inherit"
+              underline="none"
+            >
+              {props.category}
+            </Link>
+          </Typography>
         </Typography>
       </CardContent>
       <CardActions>
