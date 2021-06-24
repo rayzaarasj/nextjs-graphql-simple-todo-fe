@@ -1,4 +1,5 @@
-import { Container } from '@material-ui/core';
+/* eslint-disable react-hooks/rules-of-hooks */
+import { Button, Container } from '@material-ui/core';
 import {
   Accordion,
   AccordionDetails,
@@ -7,7 +8,9 @@ import {
   Link,
 } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Router from 'next/router';
 import React, { FC } from 'react';
+import { useDeleteTodoMutation } from '../__generated__/graphql';
 
 type TodoProps = {
   id: number;
@@ -34,6 +37,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Todo: FC<TodoProps> = (props: TodoProps) => {
   const classes = useStyles();
+  const [deleteTodoMutation] = useDeleteTodoMutation({
+    variables: { id: props.id },
+  });
+
+  const handleDeleteTodoClick = () => {
+    deleteTodoMutation()
+      .then(() => {
+        alert('Todo deleted');
+        Router.reload();
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+  };
 
   return (
     <Accordion>
@@ -63,6 +80,9 @@ export const Todo: FC<TodoProps> = (props: TodoProps) => {
             </Container>
           );
         })}
+      </AccordionDetails>
+      <AccordionDetails>
+        <Button onClick={handleDeleteTodoClick}>Delete</Button>
       </AccordionDetails>
     </Accordion>
   );
