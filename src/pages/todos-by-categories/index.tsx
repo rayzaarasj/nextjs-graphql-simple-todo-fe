@@ -2,28 +2,30 @@ import { Checkbox, Container, FormControlLabel } from '@material-ui/core';
 import { Box, CircularProgress } from '@material-ui/core';
 import React, { ReactElement, useState } from 'react';
 import { useGetCategoriesQuery } from '../../__generated__/graphql';
-import { CategoryType } from '../categories';
+import { useEffect } from 'react';
+
+interface CategoryState {
+  id: number;
+  category: string;
+  isChecked: boolean;
+}
 
 export default function TodosByCategories(): ReactElement {
+  const [categories, updatecategories] = useState<CategoryState[]>([]);
   const { data, loading } = useGetCategoriesQuery();
-  const categories: CategoryType[] = [];
-  const initialState = new Map<number, boolean>();
-  data?.categories?.forEach((category) => {
-    categories.push({
-      id: parseInt(category.id),
-      category: category.category || '',
+
+  useEffect(() => {
+    const initialState: CategoryState[] = [];
+    data?.categories?.forEach((category) => {
+      initialState.push({
+        id: parseInt(category.id),
+        category: category.category || '',
+        isChecked: false,
+      });
     });
-    initialState.set(parseInt(category.id), false);
-  });
 
-  // add more mock checboxes
-  for (let i = 0; i < 100; i++) {
-    categories.push({ id: i + 100, category: `categories-${i + 100}` });
-    initialState.set(i + 100, false);
-  }
-
-  const [categoryIsChecked, updatecategoryIsChecked] =
-    useState<Map<number, boolean>>(initialState);
+    updatecategories(initialState);
+  }, [data]);
 
   if (loading) {
     return (
@@ -33,24 +35,22 @@ export default function TodosByCategories(): ReactElement {
     );
   }
 
-  const handleCategoryCheckChange = (id: number) => {
-    const newState = new Map(
-      categoryIsChecked.set(id, !categoryIsChecked.get(id))
-    );
-    updatecategoryIsChecked(newState);
+  const handleCategoryCheckChange = (index: number) => {
+    const newArr = [...categories];
+    newArr[index].isChecked = !categories[index].isChecked;
+    updatecategories(newArr);
   };
 
   return (
     <Container>
-      {categories.map((category: CategoryType, index: number) => {
+      {categories.map((category: CategoryState, index: number) => {
         return (
           <FormControlLabel
             key={index}
             control={
               <Checkbox
-                checked={categoryIsChecked.get(category.id)}
-                onChange={() => handleCategoryCheckChange(category.id)}
-                value={category.id}
+                checked={category.isChecked}
+                onChange={() => handleCategoryCheckChange(index)}
               />
             }
             label={category.category}
