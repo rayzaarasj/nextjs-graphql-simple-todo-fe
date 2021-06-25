@@ -1,4 +1,11 @@
-import { Checkbox, Container, FormControlLabel } from '@material-ui/core';
+import {
+  Checkbox,
+  Container,
+  FormControlLabel,
+  Typography,
+  Button,
+  Grid,
+} from '@material-ui/core';
 import { Box, CircularProgress } from '@material-ui/core';
 import React, { ReactElement, useState } from 'react';
 import { useGetCategoriesQuery } from '../../__generated__/graphql';
@@ -41,8 +48,22 @@ export default function TodosByCategories(): ReactElement {
     updatecategories(newArr);
   };
 
+  const handleSearchButtonClick = () => {
+    console.log(categories);
+  };
+
+  const handleResetButtonClick = () => {
+    const newArr = categories.map((category) => {
+      category.isChecked = false;
+      return category;
+    });
+    updatecategories(newArr);
+  };
+
   return (
     <Container>
+      <Typography variant="h1">Todos by Categories</Typography>
+      <Box height="2rem" />
       {categories.map((category: CategoryState, index: number) => {
         return (
           <FormControlLabel
@@ -57,6 +78,20 @@ export default function TodosByCategories(): ReactElement {
           />
         );
       })}
+      <Box height="1rem" />
+      <Grid container>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSearchButtonClick}
+        >
+          Search
+        </Button>
+        <Box width="1rem" />
+        <Button variant="contained" onClick={handleResetButtonClick}>
+          Reset
+        </Button>
+      </Grid>
     </Container>
   );
 }
