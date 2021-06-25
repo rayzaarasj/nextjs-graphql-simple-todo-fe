@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Container,
   Grid,
@@ -36,6 +37,10 @@ export default function Categories(): ReactElement {
     <Container>
       <Typography variant="h1">Categories</Typography>
       <Box height="2rem" />
+      <Button variant="contained" color="primary" href="/categories/new">
+        New Category
+      </Button>
+      <Box height="1rem" />
       <Grid
         container
         spacing={2}
