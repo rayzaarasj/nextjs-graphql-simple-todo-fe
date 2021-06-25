@@ -1,0 +1,7 @@
+mutation deleteCategory($id: Int!) {
+  deleteCategory(input: {
+    id: $id
+  }) {
+    deletedId
+  }
+}

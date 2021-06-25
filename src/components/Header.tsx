@@ -22,11 +22,14 @@ export const Header: FC = () => {
               SimpleTodo
             </Link>
           </Typography>
-          <Button color="inherit" href="todos">
+          <Button color="inherit" href="/todos">
             Todos
           </Button>
-          <Button color="inherit" href="categories">
+          <Button color="inherit" href="/categories">
             Categories
+          </Button>
+          <Button color="inherit" href="/todos-by-categories">
+            Todos by Categories
           </Button>
         </Toolbar>
       </Container>
