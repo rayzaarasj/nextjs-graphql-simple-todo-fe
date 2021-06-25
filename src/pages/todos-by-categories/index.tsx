@@ -8,8 +8,13 @@ import {
 } from '@material-ui/core';
 import { Box, CircularProgress } from '@material-ui/core';
 import React, { ReactElement, useState } from 'react';
-import { useGetCategoriesQuery } from '../../__generated__/graphql';
+import {
+  useGetCategoriesQuery,
+  useGetTodosByCategoryIdsQuery,
+} from '../../__generated__/graphql';
 import { useEffect } from 'react';
+import { Todo } from '../../components/Todo';
+import { TodoType } from '../todos';
 
 interface CategoryState {
   id: number;
@@ -19,11 +24,17 @@ interface CategoryState {
 
 export default function TodosByCategories(): ReactElement {
   const [categories, updatecategories] = useState<CategoryState[]>([]);
-  const { data, loading } = useGetCategoriesQuery();
+  const [todos, updateTodos] = useState<TodoType[]>([]);
+  const [categoryIdsInput, updatecategoryIdsInput] = useState<number[]>([]);
+  const { data: dataCategories, loading: loadingCategories } =
+    useGetCategoriesQuery();
+  const { data: todosData } = useGetTodosByCategoryIdsQuery({
+    variables: { ids: categoryIdsInput },
+  });
 
   useEffect(() => {
     const initialState: CategoryState[] = [];
-    data?.categories?.forEach((category) => {
+    dataCategories?.categories?.forEach((category) => {
       initialState.push({
         id: parseInt(category.id),
         category: category.category || '',
@@ -32,9 +43,29 @@ export default function TodosByCategories(): ReactElement {
     });
 
     updatecategories(initialState);
-  }, [data]);
+  }, [dataCategories]);
 
-  if (loading) {
+  useEffect(() => {
+    const newTodosState: TodoType[] = [];
+    todosData?.todosByCategoryIds?.forEach((todo) => {
+      newTodosState.push({
+        id: parseInt(todo.id),
+        title: todo.title || '',
+        description: todo.description || '',
+        deadline: new Date(todo.deadline || 0),
+        categories:
+          todo.categories?.map((category) => {
+            return {
+              id: parseInt(category.id),
+              category: category.category || '',
+            };
+          }) || [],
+      });
+    });
+    updateTodos(newTodosState);
+  }, [todosData]);
+
+  if (loadingCategories) {
     return (
       <Box marginY="40px" display="flex" justifyContent="center">
         <CircularProgress />
@@ -49,7 +80,13 @@ export default function TodosByCategories(): ReactElement {
   };
 
   const handleSearchButtonClick = () => {
-    console.log(categories);
+    const newArr: number[] = [];
+    categories.forEach((category) => {
+      if (category.isChecked) {
+        newArr.push(category.id);
+      }
+    });
+    updatecategoryIdsInput(newArr);
   };
 
   const handleResetButtonClick = () => {
@@ -58,6 +95,7 @@ export default function TodosByCategories(): ReactElement {
       return category;
     });
     updatecategories(newArr);
+    updateTodos([]);
   };
 
   return (
@@ -92,6 +130,19 @@ export default function TodosByCategories(): ReactElement {
           Reset
         </Button>
       </Grid>
+      <Box height="2rem" />
+      {todos.map((data: TodoType, index: number) => {
+        return (
+          <Todo
+            key={index}
+            id={data.id}
+            title={data.title}
+            description={data.description}
+            deadline={data.deadline}
+            categories={data.categories}
+          ></Todo>
+        );
+      })}
     </Container>
   );
 }
