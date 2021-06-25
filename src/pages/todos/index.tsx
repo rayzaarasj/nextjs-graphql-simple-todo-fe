@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Container,
   Typography,
@@ -50,6 +51,10 @@ export default function Todos(): ReactElement {
     <Container>
       <Typography variant="h1">Todos</Typography>
       <Box height="2rem" />
+      <Button variant="contained" color="primary" href="/todos/new">
+        New Todo
+      </Button>
+      <Box height="1rem" />
       {todos.map((data: TodoType, index: number) => {
         return (
           <Todo
