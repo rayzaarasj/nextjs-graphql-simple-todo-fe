@@ -8,17 +8,7 @@ import {
 import React, { ReactElement } from 'react';
 import { Todo } from '@components/Todo';
 import { useGetTodosQuery } from '../../__generated__/graphql';
-
-export type TodoType = {
-  id: number;
-  title: string;
-  description: string;
-  deadline: Date;
-  categories: {
-    id: number;
-    category: string;
-  }[];
-};
+import { TodoType } from '@type/Todo';
 
 export default function Todos(): ReactElement {
   const { data, loading } = useGetTodosQuery();

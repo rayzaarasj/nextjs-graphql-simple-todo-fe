@@ -14,7 +14,7 @@ import {
   useGetTodosByCategoryIdsQuery,
 } from '../../__generated__/graphql';
 import { Todo } from '@components/Todo';
-import { TodoType } from '../todos';
+import { TodoType } from '@type/Todo';
 
 interface CategoryState {
   id: number;
