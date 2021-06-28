@@ -5,7 +5,7 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../lib/theme';
-import { Header } from '../components/Header';
+import { Header } from '@components/Header';
 import { Box } from '@material-ui/core';
 import {
   ApolloClient,

@@ -1,4 +1,6 @@
 import {
+  Box,
+  CircularProgress,
   Checkbox,
   Container,
   FormControlLabel,
@@ -6,14 +8,12 @@ import {
   Button,
   Grid,
 } from '@material-ui/core';
-import { Box, CircularProgress } from '@material-ui/core';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import {
   useGetCategoriesQuery,
   useGetTodosByCategoryIdsQuery,
 } from '../../__generated__/graphql';
-import { useEffect } from 'react';
-import { Todo } from '../../components/Todo';
+import { Todo } from '@components/Todo';
 import { TodoType } from '../todos';
 
 interface CategoryState {

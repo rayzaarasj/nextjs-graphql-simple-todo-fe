@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { ReactElement } from 'react';
-import { Todo } from '../../components/Todo';
+import { Todo } from '@components/Todo';
 import { useGetTodosQuery } from '../../__generated__/graphql';
 
 export type TodoType = {
