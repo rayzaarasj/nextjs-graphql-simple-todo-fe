@@ -84,6 +84,15 @@ export const Todo: FC<TodoProps> = (props: TodoProps) => {
       </AccordionDetails>
       <AccordionDetails>
         <Button onClick={handleDeleteTodoClick}>Delete</Button>
+        <Button>
+          <Link
+            href={`/todos/${props.id.toString()}/edit`}
+            color="inherit"
+            underline="none"
+          >
+            Edit
+          </Link>
+        </Button>
       </AccordionDetails>
     </Accordion>
   );
