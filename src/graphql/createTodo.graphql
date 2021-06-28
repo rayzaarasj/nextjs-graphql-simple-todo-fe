@@ -1,0 +1,26 @@
+mutation createTodo(
+  $title: String!
+  $description: String!
+  $deadline: String!
+  $categories: [Int!]!
+) {
+  createTodo(
+    input: {
+      title: $title
+      description: $description
+      deadline: $deadline
+      categories: $categories
+    }
+  ) {
+    todo {
+      id
+      title
+      description
+      deadline
+      categories {
+        id
+        category
+      }
+    }
+  }
+}

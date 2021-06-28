@@ -1,23 +1,14 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Container,
   Typography,
 } from '@material-ui/core';
 import React, { ReactElement } from 'react';
-import { Todo } from '../../components/Todo';
-import { useGetTodosQuery } from '../../__generated__/graphql';
-
-export type TodoType = {
-  id: number;
-  title: string;
-  description: string;
-  deadline: Date;
-  categories: {
-    id: number;
-    category: string;
-  }[];
-};
+import { Todo } from '@components/Todo';
+import { useGetTodosQuery } from 'src/__generated__/graphql';
+import { TodoType } from '@type/Todo';
 
 export default function Todos(): ReactElement {
   const { data, loading } = useGetTodosQuery();
@@ -50,6 +41,10 @@ export default function Todos(): ReactElement {
     <Container>
       <Typography variant="h1">Todos</Typography>
       <Box height="2rem" />
+      <Button variant="contained" color="primary" href="/todos/new">
+        New Todo
+      </Button>
+      <Box height="1rem" />
       {todos.map((data: TodoType, index: number) => {
         return (
           <Todo

@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import Router from 'next/router';
 import React, { FC } from 'react';
-import { useDeleteCategoryMutation } from '../__generated__/graphql';
+import { useDeleteCategoryMutation } from 'src/__generated__/graphql';
 
 type CategoryProps = {
   id: number;

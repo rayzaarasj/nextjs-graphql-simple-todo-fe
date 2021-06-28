@@ -1,18 +1,15 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Container,
   Grid,
   Typography,
 } from '@material-ui/core';
 import React, { ReactElement } from 'react';
-import { Category } from '../../components/Category';
-import { useGetCategoriesQuery } from '../../__generated__/graphql';
-
-export type CategoryType = {
-  id: number;
-  category: string;
-};
+import { Category } from '@components/Category';
+import { useGetCategoriesQuery } from 'src/__generated__/graphql';
+import { CategoryType } from '@type/Category';
 
 export default function Categories(): ReactElement {
   const { data, loading } = useGetCategoriesQuery();
@@ -36,6 +33,10 @@ export default function Categories(): ReactElement {
     <Container>
       <Typography variant="h1">Categories</Typography>
       <Box height="2rem" />
+      <Button variant="contained" color="primary" href="/categories/new">
+        New Category
+      </Button>
+      <Box height="1rem" />
       <Grid
         container
         spacing={2}

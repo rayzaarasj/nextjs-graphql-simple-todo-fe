@@ -1,4 +1,6 @@
 import {
+  Box,
+  CircularProgress,
   Checkbox,
   Container,
   FormControlLabel,
@@ -6,21 +8,14 @@ import {
   Button,
   Grid,
 } from '@material-ui/core';
-import { Box, CircularProgress } from '@material-ui/core';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import {
   useGetCategoriesQuery,
   useGetTodosByCategoryIdsQuery,
-} from '../../__generated__/graphql';
-import { useEffect } from 'react';
-import { Todo } from '../../components/Todo';
-import { TodoType } from '../todos';
-
-interface CategoryState {
-  id: number;
-  category: string;
-  isChecked: boolean;
-}
+} from 'src/__generated__/graphql';
+import { Todo } from '@components/Todo';
+import { TodoType } from '@type/Todo';
+import { CategoryState } from '@type/Category';
 
 export default function TodosByCategories(): ReactElement {
   const [categories, updatecategories] = useState<CategoryState[]>([]);
