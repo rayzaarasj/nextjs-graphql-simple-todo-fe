@@ -12,7 +12,7 @@ import React, { ReactElement, useState, useEffect } from 'react';
 import {
   useGetCategoriesQuery,
   useGetTodosByCategoryIdsQuery,
-} from '../../__generated__/graphql';
+} from 'src/__generated__/graphql';
 import { Todo } from '@components/Todo';
 import { TodoType } from '@type/Todo';
 

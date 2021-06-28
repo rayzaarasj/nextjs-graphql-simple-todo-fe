@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import React, { ReactElement } from 'react';
 import { Category } from '@components/Category';
-import { useGetCategoriesQuery } from '../../__generated__/graphql';
+import { useGetCategoriesQuery } from 'src/__generated__/graphql';
 import { CategoryType } from '@type/Category';
 
 export default function Categories(): ReactElement {
