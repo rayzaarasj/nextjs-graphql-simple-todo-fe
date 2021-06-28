@@ -248,6 +248,29 @@ export type CreateCategoryMutation = (
   )> }
 );
 
+export type CreateTodoMutationVariables = Exact<{
+  title: Scalars['String'];
+  description: Scalars['String'];
+  deadline: Scalars['String'];
+  categories: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type CreateTodoMutation = (
+  { __typename?: 'Mutation' }
+  & { createTodo?: Maybe<(
+    { __typename?: 'CreateTodoPayload' }
+    & { todo: (
+      { __typename?: 'Todo' }
+      & Pick<Todo, 'id' | 'title' | 'description' | 'deadline'>
+      & { categories?: Maybe<Array<(
+        { __typename?: 'Category' }
+        & Pick<Category, 'id' | 'category'>
+      )>> }
+    ) }
+  )> }
+);
+
 export type DeleteCategoryMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -395,6 +418,53 @@ export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
 export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export const CreateTodoDocument = gql`
+    mutation createTodo($title: String!, $description: String!, $deadline: String!, $categories: [Int!]!) {
+  createTodo(
+    input: {title: $title, description: $description, deadline: $deadline, categories: $categories}
+  ) {
+    todo {
+      id
+      title
+      description
+      deadline
+      categories {
+        id
+        category
+      }
+    }
+  }
+}
+    `;
+export type CreateTodoMutationFn = Apollo.MutationFunction<CreateTodoMutation, CreateTodoMutationVariables>;
+
+/**
+ * __useCreateTodoMutation__
+ *
+ * To run a mutation, you first call `useCreateTodoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTodoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTodoMutation, { data, loading, error }] = useCreateTodoMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *      deadline: // value for 'deadline'
+ *      categories: // value for 'categories'
+ *   },
+ * });
+ */
+export function useCreateTodoMutation(baseOptions?: Apollo.MutationHookOptions<CreateTodoMutation, CreateTodoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTodoMutation, CreateTodoMutationVariables>(CreateTodoDocument, options);
+      }
+export type CreateTodoMutationHookResult = ReturnType<typeof useCreateTodoMutation>;
+export type CreateTodoMutationResult = Apollo.MutationResult<CreateTodoMutation>;
+export type CreateTodoMutationOptions = Apollo.BaseMutationOptions<CreateTodoMutation, CreateTodoMutationVariables>;
 export const DeleteCategoryDocument = gql`
     mutation deleteCategory($id: Int!) {
   deleteCategory(input: {id: $id}) {
