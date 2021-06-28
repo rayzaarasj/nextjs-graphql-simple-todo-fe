@@ -13,15 +13,25 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import { CategoryState, CategoryType } from '@type/Category';
-import React, { ReactElement, useState } from 'react';
-import { useEffect } from 'react';
-import { useGetCategoriesQuery } from 'src/__generated__/graphql';
+import React, { ReactElement, useState, useEffect } from 'react';
+import {
+  useCreateTodoMutation,
+  useGetCategoriesQuery,
+} from 'src/__generated__/graphql';
 
 interface InputState {
   title: string;
   description: string;
   deadline: Date;
   categories: CategoryState[];
+}
+
+function dateFormatHelper(date: Date): string {
+  date.toUTCString();
+  return (
+    `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}` +
+    `T${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}Z`
+  );
 }
 
 export default function NewTodo(): ReactElement {
@@ -33,6 +43,7 @@ export default function NewTodo(): ReactElement {
   });
   const { data: categoriesData, loading: categoriesLoading } =
     useGetCategoriesQuery();
+  const [createTodoMutation] = useCreateTodoMutation();
 
   const categories: CategoryType[] = [];
   categoriesData?.categories?.forEach((category) => {
@@ -88,6 +99,43 @@ export default function NewTodo(): ReactElement {
     });
   };
 
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    createTodoMutation({
+      variables: {
+        title: inputState.title,
+        description: inputState.description,
+        deadline: dateFormatHelper(inputState.deadline),
+        categories: inputState.categories
+          .filter((category) => {
+            return category.isChecked;
+          })
+          .map((category) => {
+            return category.id;
+          }),
+      },
+    })
+      .then((value) => {
+        const todoId = value.data?.createTodo?.todo.id;
+        const todoTitle = value.data?.createTodo?.todo.title;
+        const todoDescription = value.data?.createTodo?.todo.description;
+        const todoDeadline = value.data?.createTodo?.todo.deadline;
+        const todoCategories = value.data?.createTodo?.todo.categories?.map(
+          (category) => {
+            return category.category;
+          }
+        );
+        alert(
+          `Category created\nId : ${todoId}\nTitle : ${todoTitle}\n` +
+            `Description : ${todoDescription}\nDeadline : ${todoDeadline}\n` +
+            `Category(ies) : ${todoCategories}`
+        );
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+  };
+
   if (categoriesLoading) {
     return (
       <Box display="flex" justifyContent="center">
@@ -100,7 +148,7 @@ export default function NewTodo(): ReactElement {
     <Container>
       <Typography variant="h1">New Todo</Typography>
       <Box height="2rem" />
-      <form>
+      <form onSubmit={handleSubmit}>
         <Container>
           <TextField label="Title" fullWidth onChange={handleTitleChange} />
           <Box height="1rem" />
@@ -113,13 +161,14 @@ export default function NewTodo(): ReactElement {
           <TextField
             label="Deadline"
             type="datetime-local"
+            fullWidth
             onChange={handleDeadlineChange}
             InputLabelProps={{
               shrink: true,
             }}
           />
           <Box height="1rem" />
-          <InputLabel>Categories</InputLabel>
+          <InputLabel shrink={true}>Categories</InputLabel>
           <Select
             multiple
             fullWidth
