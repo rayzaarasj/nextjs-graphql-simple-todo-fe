@@ -50,6 +50,15 @@ export const Category: FC<CategoryProps> = (props: CategoryProps) => {
         <Button onClick={handleDeleteCategoryClick} size="small">
           Delete
         </Button>
+        <Button size="small">
+          <Link
+            href={`/categories/${props.id.toString()}/edit`}
+            color="inherit"
+            underline="none"
+          >
+            Edit
+          </Link>
+        </Button>
       </CardActions>
     </Card>
   );
