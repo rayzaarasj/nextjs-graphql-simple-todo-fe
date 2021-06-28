@@ -9,16 +9,19 @@ import {
   Chip,
   CircularProgress,
   MenuItem,
+  Checkbox,
+  ListItemText,
 } from '@material-ui/core';
-import { CategoryType } from '@type/Category';
+import { CategoryState, CategoryType } from '@type/Category';
 import React, { ReactElement, useState } from 'react';
+import { useEffect } from 'react';
 import { useGetCategoriesQuery } from 'src/__generated__/graphql';
 
 interface InputState {
   title: string;
   description: string;
   deadline: Date;
-  categories: CategoryType[];
+  categories: CategoryState[];
 }
 
 export default function NewTodo(): ReactElement {
@@ -39,6 +42,20 @@ export default function NewTodo(): ReactElement {
     });
   });
 
+  useEffect(() => {
+    const categoriesInitialState: CategoryState[] = [];
+    categoriesData?.categories?.forEach((category) => {
+      categoriesInitialState.push({
+        id: parseInt(category.id),
+        category: category.category || '',
+        isChecked: false,
+      });
+    });
+    updateInputState((prevState) => {
+      return { ...prevState, categories: categoriesInitialState };
+    });
+  }, [categoriesData]);
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateInputState({ ...inputState, title: event.target.value });
   };
@@ -51,6 +68,24 @@ export default function NewTodo(): ReactElement {
 
   const handleDeadlineChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateInputState({ ...inputState, deadline: new Date(event.target.value) });
+  };
+
+  const handleCategoriesChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    const id = (event.target.value as unknown[])[
+      (event.target.value as unknown[]).length - 1
+    ];
+    const newCategoriesState = [...inputState.categories];
+    newCategoriesState.map((category) => {
+      if (category.id === (id as number)) {
+        category.isChecked = !category.isChecked;
+      }
+    });
+    updateInputState({
+      ...inputState,
+      categories: newCategoriesState,
+    });
   };
 
   if (categoriesLoading) {
@@ -89,19 +124,33 @@ export default function NewTodo(): ReactElement {
             multiple
             fullWidth
             value={inputState?.categories}
+            onChange={handleCategoriesChange}
             renderValue={(selected) => (
               <div>
-                {(selected as CategoryType[]).map((category) => (
-                  <Chip key={category.category} label={category.category} />
-                ))}
+                {(selected as CategoryState[]).map((category) => {
+                  if (category.isChecked) {
+                    return (
+                      <Chip key={category.category} label={category.category} />
+                    );
+                  }
+                })}
               </div>
             )}
           >
-            {categories.map((category) => (
-              <MenuItem key={category.category} value={category.category}>
-                {category.category}
-              </MenuItem>
-            ))}
+            {categories.map((category) => {
+              return (
+                <MenuItem key={category.id} value={category.id}>
+                  <Checkbox
+                    checked={
+                      inputState.categories.find((temp) => {
+                        return temp.id === category.id;
+                      })?.isChecked
+                    }
+                  />
+                  <ListItemText primary={category.category} />
+                </MenuItem>
+              );
+            })}
           </Select>
           <Box height="1rem" />
           <Button type="submit" color="primary" variant="contained">

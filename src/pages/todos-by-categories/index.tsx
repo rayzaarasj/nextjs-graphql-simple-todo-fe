@@ -15,12 +15,7 @@ import {
 } from 'src/__generated__/graphql';
 import { Todo } from '@components/Todo';
 import { TodoType } from '@type/Todo';
-
-interface CategoryState {
-  id: number;
-  category: string;
-  isChecked: boolean;
-}
+import { CategoryState } from '@type/Category';
 
 export default function TodosByCategories(): ReactElement {
   const [categories, updatecategories] = useState<CategoryState[]>([]);
