@@ -51,18 +51,24 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
   });
 
   useEffect(() => {
-    const categoriesInitialState: CategoryState[] = [];
-    categoriesData?.categories?.forEach((category) => {
-      categoriesInitialState.push({
-        id: parseInt(category.id),
-        category: category.category || '',
-        isChecked: false,
+    if (props.input?.categories) {
+      updateInputState((prevState) => {
+        return { ...prevState, categories: props.input?.categories || [] };
       });
-    });
-    updateInputState((prevState) => {
-      return { ...prevState, categories: categoriesInitialState };
-    });
-  }, [categoriesData]);
+    } else {
+      const categoriesInitialState: CategoryState[] = [];
+      categoriesData?.categories?.forEach((category) => {
+        categoriesInitialState.push({
+          id: parseInt(category.id),
+          category: category.category || '',
+          isChecked: false,
+        });
+      });
+      updateInputState((prevState) => {
+        return { ...prevState, categories: categoriesInitialState };
+      });
+    }
+  }, [categoriesData, props.input?.categories]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateInputState({ ...inputState, title: event.target.value });
