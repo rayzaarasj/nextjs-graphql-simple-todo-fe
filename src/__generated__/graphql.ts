@@ -346,6 +346,47 @@ export type GetTodosByCategoryIdsQuery = (
   )>> }
 );
 
+export type UpdateCategoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+  category: Scalars['String'];
+}>;
+
+
+export type UpdateCategoryMutation = (
+  { __typename?: 'Mutation' }
+  & { updateCategory?: Maybe<(
+    { __typename?: 'UpdateCategoryPayload' }
+    & { category: (
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'category'>
+    ) }
+  )> }
+);
+
+export type UpdateTodoMutationVariables = Exact<{
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  deadline: Scalars['String'];
+  categories: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type UpdateTodoMutation = (
+  { __typename?: 'Mutation' }
+  & { updateTodo?: Maybe<(
+    { __typename?: 'UpdateTodoPayload' }
+    & { todo: (
+      { __typename?: 'Todo' }
+      & Pick<Todo, 'id' | 'title' | 'description' | 'deadline'>
+      & { categories?: Maybe<Array<(
+        { __typename?: 'Category' }
+        & Pick<Category, 'id' | 'category'>
+      )>> }
+    ) }
+  )> }
+);
+
 
 export const GetCategoriesDocument = gql`
     query getCategories {
@@ -656,3 +697,88 @@ export function useGetTodosByCategoryIdsLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetTodosByCategoryIdsQueryHookResult = ReturnType<typeof useGetTodosByCategoryIdsQuery>;
 export type GetTodosByCategoryIdsLazyQueryHookResult = ReturnType<typeof useGetTodosByCategoryIdsLazyQuery>;
 export type GetTodosByCategoryIdsQueryResult = Apollo.QueryResult<GetTodosByCategoryIdsQuery, GetTodosByCategoryIdsQueryVariables>;
+export const UpdateCategoryDocument = gql`
+    mutation updateCategory($id: Int!, $category: String!) {
+  updateCategory(input: {id: $id, category: $category}) {
+    category {
+      id
+      category
+    }
+  }
+}
+    `;
+export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
+
+/**
+ * __useUpdateCategoryMutation__
+ *
+ * To run a mutation, you first call `useUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      category: // value for 'category'
+ *   },
+ * });
+ */
+export function useUpdateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCategoryMutation, UpdateCategoryMutationVariables>(UpdateCategoryDocument, options);
+      }
+export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCategoryMutation>;
+export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
+export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
+export const UpdateTodoDocument = gql`
+    mutation updateTodo($id: Int!, $title: String!, $description: String!, $deadline: String!, $categories: [Int!]!) {
+  updateTodo(
+    input: {id: $id, title: $title, description: $description, deadline: $deadline, categories: $categories}
+  ) {
+    todo {
+      id
+      title
+      description
+      deadline
+      categories {
+        id
+        category
+      }
+    }
+  }
+}
+    `;
+export type UpdateTodoMutationFn = Apollo.MutationFunction<UpdateTodoMutation, UpdateTodoMutationVariables>;
+
+/**
+ * __useUpdateTodoMutation__
+ *
+ * To run a mutation, you first call `useUpdateTodoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTodoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTodoMutation, { data, loading, error }] = useUpdateTodoMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *      deadline: // value for 'deadline'
+ *      categories: // value for 'categories'
+ *   },
+ * });
+ */
+export function useUpdateTodoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateTodoMutation, UpdateTodoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateTodoMutation, UpdateTodoMutationVariables>(UpdateTodoDocument, options);
+      }
+export type UpdateTodoMutationHookResult = ReturnType<typeof useUpdateTodoMutation>;
+export type UpdateTodoMutationResult = Apollo.MutationResult<UpdateTodoMutation>;
+export type UpdateTodoMutationOptions = Apollo.BaseMutationOptions<UpdateTodoMutation, UpdateTodoMutationVariables>;
