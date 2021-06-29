@@ -1,3 +1,5 @@
+import { CategoryState } from '@type/Category';
+
 export type TodoType = {
   id: number;
   title: string;
@@ -8,3 +10,10 @@ export type TodoType = {
     category: string;
   }[];
 };
+
+export interface TodoInputState {
+  title: string;
+  description: string;
+  deadline: Date;
+  categories: CategoryState[];
+}
