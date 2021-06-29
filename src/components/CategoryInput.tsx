@@ -28,7 +28,7 @@ export const CategoryInput: FC<CategoryInputProps> = (
           />
           <Box height="1rem" />
           <Button type="submit" color="primary" variant="contained">
-            {categoryInput === '' ? 'Create' : 'Edit'}
+            {props.input ? 'Edit' : 'Create'}
           </Button>
         </Container>
       </form>
