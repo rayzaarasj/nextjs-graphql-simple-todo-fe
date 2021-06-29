@@ -21,6 +21,15 @@ type TodoInputProps = {
   input?: TodoInputState;
 };
 
+function dateInputFormatHelper(date: Date): string {
+  const month = date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
+  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+  const minute =
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+  return `${date.getFullYear()}-${month}-${day}T${hour}:${minute}`;
+}
+
 export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
   const [inputState, updateInputState] = useState<TodoInputState>(
     props.input || {
@@ -99,11 +108,17 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
     <Container>
       <form onSubmit={(event) => props.handleSubmit(event, inputState)}>
         <Container>
-          <TextField label="Title" fullWidth onChange={handleTitleChange} />
+          <TextField
+            label="Title"
+            fullWidth
+            value={inputState.title}
+            onChange={handleTitleChange}
+          />
           <Box height="1rem" />
           <TextField
             label="Description"
             fullWidth
+            value={inputState.description}
             onChange={handleDescriptionChange}
           />
           <Box height="1rem" />
@@ -111,6 +126,11 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
             label="Deadline"
             type="datetime-local"
             fullWidth
+            value={
+              props.input
+                ? dateInputFormatHelper(inputState.deadline)
+                : undefined
+            }
             onChange={handleDeadlineChange}
             InputLabelProps={{
               shrink: true,
