@@ -1,23 +1,13 @@
-import {
-  Container,
-  Typography,
-  Box,
-  TextField,
-  Button,
-} from '@material-ui/core';
-import React, { ReactElement, useState } from 'react';
+import { CategoryInput } from '@components/CategoryInput';
+import { Box, Container, Typography } from '@material-ui/core';
+import React, { ReactElement } from 'react';
 import { useCreateCategoryMutation } from 'src/__generated__/graphql';
 
 export default function NewCategory(): ReactElement {
-  const [categoryInput, updateCategoryInput] = useState<string>('');
   const [createCategoryMutation] = useCreateCategoryMutation();
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateCategoryInput(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    createCategoryMutation({ variables: { category: categoryInput } })
+  const handleSubmit = (_event: React.SyntheticEvent, input: string) => {
+    createCategoryMutation({ variables: { category: input } })
       .then((value) => {
         const categoryId = value.data?.createCategory?.category.id;
         const categoryName = value.data?.createCategory?.category.category;
@@ -34,19 +24,7 @@ export default function NewCategory(): ReactElement {
     <Container>
       <Typography variant="h1">New Category</Typography>
       <Box height="2rem" />
-      <form onSubmit={handleSubmit}>
-        <Container>
-          <TextField
-            label="Category"
-            fullWidth
-            onChange={handleCategoryChange}
-          />
-          <Box height="1rem" />
-          <Button type="submit" color="primary" variant="contained">
-            Create
-          </Button>
-        </Container>
-      </form>
+      <CategoryInput handleSubmit={handleSubmit} />
     </Container>
   );
 }

@@ -1,0 +1,12 @@
+query getTodoById($id: Int!) {
+  todoById(id: $id) {
+    id
+    title
+    description
+    deadline
+    categories {
+      id
+      category
+    }
+  }
+}

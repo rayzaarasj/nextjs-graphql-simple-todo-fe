@@ -1,0 +1,6 @@
+query getCategoryById($id: Int!) {
+  categoryById(id: $id) {
+    id
+    category
+  }
+}
