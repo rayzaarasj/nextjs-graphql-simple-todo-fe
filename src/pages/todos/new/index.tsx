@@ -2,15 +2,8 @@ import { TodoInput } from '@components/TodoInput';
 import { Container, Typography, Box } from '@material-ui/core';
 import { TodoInputState } from '@type/Todo';
 import React, { ReactElement } from 'react';
+import { utcDateFormatter } from 'src/lib/utils';
 import { useCreateTodoMutation } from 'src/__generated__/graphql';
-
-function dateFormatHelper(date: Date): string {
-  date.toUTCString();
-  return (
-    `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}` +
-    `T${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}Z`
-  );
-}
 
 export default function NewTodo(): ReactElement {
   const [createTodoMutation] = useCreateTodoMutation();
@@ -23,7 +16,7 @@ export default function NewTodo(): ReactElement {
       variables: {
         title: input.title,
         description: input.description,
-        deadline: dateFormatHelper(input.deadline),
+        deadline: utcDateFormatter(input.deadline),
         categories: input.categories
           .filter((category) => {
             return category.isChecked;

@@ -14,21 +14,13 @@ import {
 import { CategoryState, CategoryType } from '@type/Category';
 import { TodoInputState } from '@type/Todo';
 import React, { FC, useEffect, useState } from 'react';
+import { dateInputFormatter } from 'src/lib/utils';
 import { useGetCategoriesQuery } from 'src/__generated__/graphql';
 
 type TodoInputProps = {
   handleSubmit: (_event: React.SyntheticEvent, input: TodoInputState) => void;
   input?: TodoInputState;
 };
-
-function dateInputFormatHelper(date: Date): string {
-  const month = date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
-  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-  const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-  const minute =
-    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-  return `${date.getFullYear()}-${month}-${day}T${hour}:${minute}`;
-}
 
 export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
   const [inputState, updateInputState] = useState<TodoInputState>(
@@ -133,9 +125,7 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
             type="datetime-local"
             fullWidth
             value={
-              props.input
-                ? dateInputFormatHelper(inputState.deadline)
-                : undefined
+              props.input ? dateInputFormatter(inputState.deadline) : undefined
             }
             onChange={handleDeadlineChange}
             InputLabelProps={{
@@ -178,7 +168,7 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
           </Select>
           <Box height="1rem" />
           <Button type="submit" color="primary" variant="contained">
-            Create
+            {props.input ? 'Edit' : 'Create'}
           </Button>
         </Container>
       </form>
