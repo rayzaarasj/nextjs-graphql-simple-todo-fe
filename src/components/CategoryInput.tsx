@@ -24,10 +24,11 @@ export const CategoryInput: FC<CategoryInputProps> = (
             label="Category"
             fullWidth
             onChange={handleCategoryChange}
+            value={categoryInput}
           />
           <Box height="1rem" />
           <Button type="submit" color="primary" variant="contained">
-            Create
+            {categoryInput === '' ? 'Create' : 'Edit'}
           </Button>
         </Container>
       </form>
