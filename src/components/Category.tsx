@@ -35,7 +35,7 @@ export const Category: FC<CategoryProps> = (props: CategoryProps) => {
     <Card id={props.id.toString()}>
       <CardContent>
         <Typography align="center">
-          <Typography variant="h5">
+          <Typography component={'span'} variant="h5">
             <Link
               href={`/categories/${props.id.toString()}`}
               color="inherit"
