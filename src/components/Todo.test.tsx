@@ -25,20 +25,22 @@ describe('Todo Component', () => {
       },
     },
   ];
-  it('shows correct data', () => {
-    const mockData: TodoType = {
-      id: 1,
-      title: 'mock-title',
-      description: 'mock-description',
-      deadline: new Date(),
-      categories: [
-        {
-          id: 1,
-          category: 'mock-category-1',
-        },
-        { id: 2, category: 'mock-category-2' },
-      ],
-    };
+
+  const mockData: TodoType = {
+    id: 1,
+    title: 'mock-title',
+    description: 'mock-description',
+    deadline: new Date(),
+    categories: [
+      {
+        id: 1,
+        category: 'mock-category-1',
+      },
+      { id: 2, category: 'mock-category-2' },
+    ],
+  };
+
+  beforeEach(() => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <Todo
@@ -50,7 +52,9 @@ describe('Todo Component', () => {
         ></Todo>
       </MockedProvider>
     );
+  });
 
+  it('shows correct data', () => {
     expect(screen.getByText(mockData.title)).toBeInTheDocument();
     expect(screen.getByText(mockData.description)).toBeInTheDocument();
     expect(
@@ -62,5 +66,10 @@ describe('Todo Component', () => {
     expect(
       screen.getByText(mockData.categories[1].category)
     ).toBeInTheDocument();
+  });
+
+  it('has buttons', () => {
+    expect(screen.getByText('Delete')).toBeInTheDocument();
+    expect(screen.getByText('Edit')).toBeInTheDocument();
   });
 });
