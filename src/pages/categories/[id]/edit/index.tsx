@@ -10,7 +10,7 @@ import React, { ReactElement } from 'react';
 import {
   useGetCategoryByIdQuery,
   useUpdateCategoryMutation,
-} from 'src/__generated__/graphql';
+} from '@generated/graphql';
 
 export default function EditCategory(): ReactElement {
   const router = useRouter();

@@ -15,7 +15,7 @@ import { CategoryState, CategoryType } from '@type/Category';
 import { TodoInputState } from '@type/Todo';
 import React, { FC, useEffect, useState } from 'react';
 import { dateInputFormatter } from 'src/lib/utils';
-import { useGetCategoriesQuery } from 'src/__generated__/graphql';
+import { useGetCategoriesQuery } from '@generated/graphql';
 
 type TodoInputProps = {
   handleSubmit: (_event: React.SyntheticEvent, input: TodoInputState) => void;

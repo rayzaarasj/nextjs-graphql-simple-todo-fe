@@ -1,7 +1,7 @@
 import { CategoryInput } from '@components/CategoryInput';
 import { Box, Container, Typography } from '@material-ui/core';
 import React, { ReactElement } from 'react';
-import { useCreateCategoryMutation } from 'src/__generated__/graphql';
+import { useCreateCategoryMutation } from '@generated/graphql';
 
 export default function NewCategory(): ReactElement {
   const [createCategoryMutation] = useCreateCategoryMutation();
