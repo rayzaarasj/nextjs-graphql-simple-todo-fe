@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Button,
   Container,
@@ -11,7 +10,7 @@ import {
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Router from 'next/router';
 import React, { FC } from 'react';
-import { useDeleteTodoMutation } from 'src/__generated__/graphql';
+import { useDeleteTodoMutation } from '@generated/graphql';
 
 type TodoProps = {
   id: number;
