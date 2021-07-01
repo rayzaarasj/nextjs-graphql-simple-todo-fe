@@ -16,6 +16,13 @@ import {
 
 function createLink(): ApolloLink {
   const { HttpLink } = require('@apollo/client/link/http');
+  let backendUri = '';
+
+  if (process.env.NODE_ENV === 'production') {
+    backendUri = 'https://rails-graphql-simple-todo-be.herokuapp.com/graphql/';
+  } else {
+    backendUri = 'http://localhost:3001/graphql/';
+  }
   return new HttpLink({
     // TODO: GraphQL サーバのモックをやめるときに、環境変数から URI を取得するようにする
     uri: 'http://localhost:3001/graphql/',
