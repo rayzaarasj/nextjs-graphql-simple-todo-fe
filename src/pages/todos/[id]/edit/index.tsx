@@ -14,7 +14,7 @@ import {
   useGetCategoriesQuery,
   useGetTodoByIdQuery,
   useUpdateTodoMutation,
-} from 'src/__generated__/graphql';
+} from '@generated/graphql';
 
 export default function UpdateCategory(): ReactElement {
   const router = useRouter();

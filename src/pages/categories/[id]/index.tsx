@@ -2,7 +2,7 @@ import { Box, CircularProgress, Container } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import React, { ReactElement } from 'react';
 import { Todo } from '@components/Todo';
-import { useGetTodosByCategoryIdQuery } from 'src/__generated__/graphql';
+import { useGetTodosByCategoryIdQuery } from '@generated/graphql';
 import { TodoType } from '@type/Todo';
 
 export default function Category(): ReactElement {

@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import React, { ReactElement } from 'react';
 import { Todo } from '@components/Todo';
-import { useGetTodosQuery } from 'src/__generated__/graphql';
+import { useGetTodosQuery } from '@generated/graphql';
 import { TodoType } from '@type/Todo';
 
 export default function Todos(): ReactElement {

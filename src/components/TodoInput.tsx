@@ -15,7 +15,7 @@ import { CategoryState, CategoryType } from '@type/Category';
 import { TodoInputState } from '@type/Todo';
 import React, { FC, useEffect, useState } from 'react';
 import { dateInputFormatter } from 'src/lib/utils';
-import { useGetCategoriesQuery } from 'src/__generated__/graphql';
+import { useGetCategoriesQuery } from '@generated/graphql';
 
 type TodoInputProps = {
   handleSubmit: (_event: React.SyntheticEvent, input: TodoInputState) => void;
@@ -111,6 +111,7 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
             fullWidth
             value={inputState.title}
             onChange={handleTitleChange}
+            inputProps={{ 'data-testid': 'title-input' }}
           />
           <Box height="1rem" />
           <TextField
@@ -118,6 +119,7 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
             fullWidth
             value={inputState.description}
             onChange={handleDescriptionChange}
+            inputProps={{ 'data-testid': 'description-input' }}
           />
           <Box height="1rem" />
           <TextField
@@ -128,6 +130,7 @@ export const TodoInput: FC<TodoInputProps> = (props: TodoInputProps) => {
               props.input ? dateInputFormatter(inputState.deadline) : undefined
             }
             onChange={handleDeadlineChange}
+            inputProps={{ 'data-testid': 'deadline-input' }}
             InputLabelProps={{
               shrink: true,
             }}

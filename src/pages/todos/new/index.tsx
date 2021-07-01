@@ -3,7 +3,7 @@ import { Container, Typography, Box } from '@material-ui/core';
 import { TodoInputState } from '@type/Todo';
 import React, { ReactElement } from 'react';
 import { utcDateFormatter } from 'src/lib/utils';
-import { useCreateTodoMutation } from 'src/__generated__/graphql';
+import { useCreateTodoMutation } from '@generated/graphql';
 
 export default function NewTodo(): ReactElement {
   const [createTodoMutation] = useCreateTodoMutation();
