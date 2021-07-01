@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { getByText, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { TodoInput } from './TodoInput';
 import React from 'react';
